@@ -1,10 +1,13 @@
+package yea.ok;
+
 import processing.core.PApplet;
+
 /**
  * Class that represents a circle using processing
  * @author Kumar Chandra
  * @version 10/12/20
  */
-public class Circle extends Shape{
+public class Circle extends Shape {
 // private double x, y;//x and y of the center
  private double diameter;
  /**

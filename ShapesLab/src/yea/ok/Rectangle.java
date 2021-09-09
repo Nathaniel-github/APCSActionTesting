@@ -1,3 +1,5 @@
+package yea.ok;
+
 import processing.core.PApplet;
 /**
  * Represents a rectangle composed of 4 lines
@@ -85,6 +87,7 @@ public class Rectangle extends Shape {
 		pad.popStyle();
 		
 	}
+	@Override
 	/**
 	 * checks if a point is inside rectangle
 	 * @param x x coord of point
@@ -300,6 +303,10 @@ public class Rectangle extends Shape {
 			l.reflectOver(x);
 		}
 		
+	}
+	@Override
+	public String toString(){
+		return "hi";
 	}
 
 }

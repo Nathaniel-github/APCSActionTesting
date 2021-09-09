@@ -21,7 +21,7 @@ jobs:
         run: |
           cd Lines
           cd src
-      - name: Test Line class exists
+      - name: Test yea.ok.Line class exists
         run: |
           cd Lines
           cd src

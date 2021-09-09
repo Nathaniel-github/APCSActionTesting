@@ -1,4 +1,7 @@
+package yea.ok;
+
 import processing.core.PApplet;
+
 /**
  * Represents a line segment using processing
  * @author Kumar Chandra
@@ -35,7 +38,7 @@ public class Line extends Shape {
 	/**
 	 * draws the line
 	 * @param pad PApplet used to draw stuff
-	 * @pre Line will be drawn with the current stroke of the papplet if it is set
+	 * @pre yea.ok.Line will be drawn with the current stroke of the papplet if it is set
 	 */
 		public void draw(PApplet pad) {
 			 pad.pushStyle();

@@ -1,3 +1,5 @@
+package yea.ok;
+
 import java.awt.Color;
 
 
@@ -17,7 +19,7 @@ private boolean filled;
 private int strokeWeight;
 
 /**
- * creates a new Shape with the specified x and y values. The default fill and stroke are white and black respectively
+ * creates a new yea.ok.Shape with the specified x and y values. The default fill and stroke are white and black respectively
  * with fill being false and strokeWeight being 1
  * @param x 'x' value of the shape
  * @param y 'y' value of the shape
@@ -51,7 +53,7 @@ public void draw(PApplet p) {
 }
 /**
  * checks if this shape intersects with the other shape, but returns false for shapes overlapping
- * Shape must be a rectangle circle or line
+ * yea.ok.Shape must be a rectangle circle or line
  * @pre shapes must be a rectangle, circle, or line
  * @param other the specified shape
  * @return true if edges intersect, false otherwise
