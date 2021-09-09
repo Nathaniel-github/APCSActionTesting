@@ -1,30 +1,29 @@
 import kchandra423.kTesting.KException;
-import processing.core.PApplet;
-import yea.ok.Shape;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static kchandra423.kTesting.KAssertion.*;
 
 public class ShapesTest {
 
     public static void main(String[] args) throws Exception {
-        existsGetAreaRectangle();
-        existsGetPerimeterRectangle();
-        existsIsPointInsideRectangle();
-        isPointInsideRectangleEdges();
-        isPointInsideRectangleInside();
-        isPointInsideRectangleOutside();
-        getPerimeterRectangle();
-        getAreaRectangle();
+//        existsGetAreaRectangle();
+//        existsGetPerimeterRectangle();
+//        existsIsPointInsideRectangle();
+//        isPointInsideRectangleEdges();
+//        isPointInsideRectangleInside();
+//        isPointInsideRectangleOutside();
+//        getPerimeterRectangle();
+//        getAreaRectangle();
 
 
-//        String choice = args[0];
-//        Method m = ShapesTest.class.getMethod(choice);
-//        m.invoke(null);
+        String choice = args[0];
+        Method m = ShapesTest.class.getMethod(choice);
+        m.invoke(null);
     }
-    private static void existsNoArgConstructorRectangle(){
+    public static void existsNoArgConstructorRectangle(){
         Object rec1 = getRectangle();
         try {
             rec1.getClass().getConstructor();
@@ -32,7 +31,7 @@ public class ShapesTest {
             throw new KException("No arg constructor", rec1);
         }
     }
-    private static void existsConstructorRectangle(){
+    public static void existsConstructorRectangle(){
         Object rec1 = getRectangle(0, 0, 10, 20);
         try {
             rec1.getClass().getConstructor();
@@ -40,20 +39,20 @@ public class ShapesTest {
             throw new KException("No arg constructor", rec1);
         }
     }
-    private static void existsIsPointInsideRectangle(){
+    public static void existsIsPointInsideRectangle(){
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertTrue("isPointInside", rec1, 0., 5.);
     }
-    private static void existsGetPerimeterRectangle(){
+    public static void existsGetPerimeterRectangle(){
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getPerimeter", rec1, 60.);
     }
-    private static void existsGetAreaRectangle(){
+    public static void existsGetAreaRectangle(){
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getArea", rec1, 200.);
     }
 
-    private static void isPointInsideRectangleEdges() {
+    public static void isPointInsideRectangleEdges() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertTrue("isPointInside", rec1, 0., 5.);
         kAssertTrue("isPointInside", rec1, 10., 0.);
@@ -61,13 +60,13 @@ public class ShapesTest {
         kAssertTrue("isPointInside", rec1, 0., 20.);
         kAssertTrue("isPointInside", rec1, 5., 20.);
     }
-    private static void isPointInsideRectangleInside() {
+    public static void isPointInsideRectangleInside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertTrue("isPointInside", rec1, 5., 10.);
         kAssertTrue("isPointInside", rec1, 7., 15.);
         kAssertTrue("isPointInside", rec1, 2., 5.);
     }
-    private static void isPointInsideRectangleOutside() {
+    public static void isPointInsideRectangleOutside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertFalse("isPointInside", rec1, 11., 10.);
         kAssertFalse("isPointInside", rec1, -1., 10.);
@@ -76,7 +75,7 @@ public class ShapesTest {
         kAssertFalse("isPointInside", rec1, 11., -1.);
         kAssertFalse("isPointInside", rec1, 11., 21.);
     }
-    private static void getPerimeterRectangle() {
+    public static void getPerimeterRectangle() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getPerimeter", rec1, 60.);
         rec1 = getRectangle(0, 0, 10, 10);
@@ -86,7 +85,7 @@ public class ShapesTest {
         rec1 = getRectangle(0, 0, 10, 5);
         kAssertEquals("getPerimeter", rec1, 30.);
     }
-    private static void getAreaRectangle() {
+    public static void getAreaRectangle() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getArea", rec1, 200.);
         rec1 = getRectangle(0, 0, 10, 10);
