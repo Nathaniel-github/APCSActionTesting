@@ -1,55 +1,72 @@
 import kchandra423.kTesting.KException;
 
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import static kchandra423.kTesting.KAssertion.*;
 
 public class ShapesTest {
 
     public static void main(String[] args) throws Exception {
-//        existsGetAreaRectangle();
-//        existsGetPerimeterRectangle();
-//        existsIsPointInsideRectangle();
-//        isPointInsideRectangleEdges();
-//        isPointInsideRectangleInside();
-//        isPointInsideRectangleOutside();
-//        getPerimeterRectangle();
-//        getAreaRectangle();
+        Method[] methods = ShapesTest.class.getMethods();
+        for (Method m :
+                methods) {
+            if (!m.getName().equals("main") && Modifier.isPublic(m.getModifiers()) && Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null);
+            }
+        }
 
 
-        String choice = args[0];
-        Method m = ShapesTest.class.getMethod(choice);
-        m.invoke(null);
+//        String choice = args[0];
+//        Method m = ShapesTest.class.getMethod(choice);
+//        m.invoke(null);
     }
-    public static void existsNoArgConstructorRectangle(){
+
+    public static void existsCircle() {
+        getClass("Circle");
+    }
+
+    public static void existsRectangle() {
+        getClass("Rectangle");
+    }
+
+    public static void existsNoArgConstructorRectangle() {
+        kAssertConstructorExists(getClass("Rectangle"));
+    }
+
+    public static void existsNoArgConstructorCircle() {
+        kAssertConstructorExists(getClass("Circle"));
+    }
+
+    public static void existsConstructorRectangle() {
+        kAssertConstructorExists(getClass("Rectangle"), double.class, double.class, double.class, double.class);
+    }
+
+    public static void existsConstructorCircle() {
+        kAssertConstructorExists(getClass("Circle"), double.class, double.class, double.class);
+    }
+
+    public static void existsIsPointInsideRectangle() {
         Object rec1 = getRectangle();
-        try {
-            rec1.getClass().getConstructor();
-        } catch (NoSuchMethodException e) {
-            throw new KException("No arg constructor", rec1);
-        }
+        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
     }
-    public static void existsConstructorRectangle(){
-        Object rec1 = getRectangle(0, 0, 10, 20);
-        try {
-            rec1.getClass().getConstructor();
-        } catch (NoSuchMethodException e) {
-            throw new KException("No arg constructor", rec1);
-        }
+
+    public static void existsIsPointInsideCircle() {
+        Object rec1 = getCircle();
+        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
     }
-    public static void existsIsPointInsideRectangle(){
-        Object rec1 = getRectangle(0, 0, 10, 20);
-        kAssertTrue("isPointInside", rec1, 0., 5.);
+
+    public static void existsGetPerimeterRectangle() {
+        Object rec1 = getRectangle();
+        kAssertMethodExists("getPerimeter", rec1);
     }
-    public static void existsGetPerimeterRectangle(){
-        Object rec1 = getRectangle(0, 0, 10, 20);
-        kAssertEquals("getPerimeter", rec1, 60.);
-    }
-    public static void existsGetAreaRectangle(){
-        Object rec1 = getRectangle(0, 0, 10, 20);
-        kAssertEquals("getArea", rec1, 200.);
+
+    public static void existsGetAreaRectangle() {
+        Object rec1 = getRectangle();
+        kAssertMethodExists("getArea", rec1);
     }
 
     public static void isPointInsideRectangleEdges() {
@@ -60,12 +77,14 @@ public class ShapesTest {
         kAssertTrue("isPointInside", rec1, 0., 20.);
         kAssertTrue("isPointInside", rec1, 5., 20.);
     }
+
     public static void isPointInsideRectangleInside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertTrue("isPointInside", rec1, 5., 10.);
         kAssertTrue("isPointInside", rec1, 7., 15.);
         kAssertTrue("isPointInside", rec1, 2., 5.);
     }
+
     public static void isPointInsideRectangleOutside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertFalse("isPointInside", rec1, 11., 10.);
@@ -75,6 +94,7 @@ public class ShapesTest {
         kAssertFalse("isPointInside", rec1, 11., -1.);
         kAssertFalse("isPointInside", rec1, 11., 21.);
     }
+
     public static void getPerimeterRectangle() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getPerimeter", rec1, 60.);
@@ -85,6 +105,7 @@ public class ShapesTest {
         rec1 = getRectangle(0, 0, 10, 5);
         kAssertEquals("getPerimeter", rec1, 30.);
     }
+
     public static void getAreaRectangle() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getArea", rec1, 200.);
@@ -96,26 +117,50 @@ public class ShapesTest {
         kAssertEquals("getArea", rec1, 50.);
     }
 
-    private static Object getCircle(double x, double y, double width, double height) {
+    private static Class getClass(String className) {
+        String foundClass = getFullyQualifiedName(className);
+        if (foundClass == null) {
+            throw new KException(className);
+        }
         try {
-            return Class.forName(getFullyQualifiedName("Circle")).getConstructor(double.class, double.class, double.class, double.class).newInstance(x, y, width, height);
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            return Class.forName(foundClass);
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    private static Object getCircle() {
+        try {
+            return getClass("Circle").newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private static Object getRectangle() {
         try {
-            return Class.forName(getFullyQualifiedName("Rectangle")).newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            return getClass("Rectangle").newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
     }
+
     private static Object getRectangle(double x, double y, double width, double height) {
         try {
-            return Class.forName(getFullyQualifiedName("Rectangle")).getConstructor(double.class, double.class, double.class, double.class).newInstance(x, y, width, height);
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            return getClass("Rectangle").getConstructor(double.class, double.class, double.class, double.class).newInstance(x, y, width, height);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Object getCircle(double x, double y, double radius) {
+        try {
+            return getClass("Circle").getConstructor(double.class, double.class, double.class).newInstance(x, y, radius);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
@@ -130,7 +175,7 @@ public class ShapesTest {
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 String val = getFullyQualifiedName(file, className, current + file.getName() + ".");
-                if(val != null){
+                if (val != null) {
                     return val;
                 }
             } else if (file.getName().equals(className + ".java")) {
