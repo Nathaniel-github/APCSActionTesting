@@ -1,396 +1,317 @@
-name: Test_Shapes
+name: Test_Shapes_First_Submission
 
 on:
   workflow_dispatch:
-  
-  push: 
-    branches: [ main ]
 
 jobs:
-
-  test_repository_setup:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Test Lines directory
-        run: cd Lines
-
-      - name: Test src directory
-        run: |
-          cd Lines
-          cd src
-      - name: Test yea.ok.Line class exists
-        run: |
-          cd Lines
-          cd src
-          cat Line.java 
-          java -version
   test_compilation:
-    runs-on: ubuntu-latest
-    
-    needs: test_repository_setup
+    runs-on: self-hosted
 
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ./Shapes/src
 
     steps:
 
       - uses: actions/checkout@v2
+
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
+
+      - name: Clear cache
+        if: steps.setup-cache.outputs.cache-hit == 'true'
+        run: |
+          cd ~/github_actions_cache
+          rmdir *
+          del *
+
       
       - name: Download jar files
         run: |
-          wget -O processing_core.jar "https://github.com/Nathaniel-github/JarHost/blob/main/processing_core.jar?raw=true"
+          wget -O processing_core.jar "https://github.com/Nathaniel-github/APCSActionTesting/blob/main/jars/processing_core.jar?raw=true"
           wget -O kTesting.jar "https://github.com/kchandra423/KTesting/blob/master/out/artifacts/KTesting_jar/KTesting.jar?raw=true"
-          wget -O ShapesTest.java ""
+          wget -O ShapesTest.java "https://raw.githubusercontent.com/Nathaniel-github/APCSActionTesting/main/ShapesLab/src/ShapesTest.java"
       
-      - uses: actions/upload-artifact@master
-        with:
-          name: testing-artifacts
-          path: |
-            ./Lines/src/processing_core.jar
-            ./Lines/src/kTesting.jar
-            ./Lines/src/LineTest.java
-      
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
-          
-  test_constructor_setup:
-    runs-on: ubuntu-latest
+      - name: Compile the code
+        run: javac -cp ".;processing_core.jar;kTesting.jar" *.java
+
+      - name: Move files into github_actions_cache
+        run: |
+          cd ..
+          cd ..
+          cd ..
+          dir
+          move "$GITHUB_REPOSITORY" "~/github_actions_cache"
+
+  test_rectangle_exists:
+    runs-on: self-hosted
     needs: test_compilation
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
       - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_constructor
-  test_setPoint2_setup:
-    runs-on: ubuntu-latest
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsRectangle
+          
+  test_rectangle_no_arg_constructor_setup:
+    runs-on: self-hosted
+    needs: test_rectangle_exists
+    defaults:
+      run:
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+
+    steps:
+
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
+        
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsNoArgConstructorRectangle
+
+  test_rectangle_constructor_setup:
+    runs-on: self-hosted
+    needs: test_rectangle_exists
+    defaults:
+      run:
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+
+    steps:
+
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
+        
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsConstructorRectangle
+
+  test_circle_exists:
+    runs-on: self-hosted
     needs: test_compilation
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test setPoint2
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_setPoint2
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsCircle
 
-  test_draw_setup:
-    runs-on: ubuntu-latest
-    needs: test_compilation
+  test_circle_no_arg_constructor_setup:
+    runs-on: self-hosted
+    needs: test_circle_exists
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test draw
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_draw
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsNoArgConstructorCircle
 
-  test_getIntersectionX_setup:
-    runs-on: ubuntu-latest
-    needs: test_compilation
+  test_circle_constructor_setup:
+    runs-on: self-hosted
+    needs: test_circle_exists
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test getIntersectionX
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_getIntersectionX
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsConstructorCircle
 
-  test_getIntersectionY_setup:
-    runs-on: ubuntu-latest
-    needs: test_compilation
+  test_point_inside_rectangle_exists:
+    runs-on: self-hosted
+    needs: test_rectangle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test getIntersectionY
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_getIntersectionY
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsIsPointInsideRectangle
 
-  test_intersects_setup:
-    runs-on: ubuntu-latest
-    needs: test_compilation
+  test_point_inside_circle_exists:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test intersects
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest exists_intersects
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsIsPointInsideCircle
 
-  test_vertical_lines:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_get_perimeter_rectangle_exists:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test vertical lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest vertical
-          
-  test_parallel_lines:
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsGetPerimeterRectangle
 
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_get_area_rectangle_exists:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test parallel lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest parallel
-    
-  test_intersecting_lines:
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsGetAreaRectangle
 
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_point_on_edge_rectangle:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test intersecting lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest intersecting
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleEdges
 
-  test_non_intersecting_lines:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_is_point_inside_rectangle:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test non-intersecting lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest non_intersecting
-        
-  test_collinear_lines:
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleInside
 
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_point_outside_rectangle:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test collinear lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest collinear
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleOutside
 
-  test_horizontal_lines:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_get_perimeter_rectangle:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test horizontal lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest horizontal
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest getPerimeterRectangle
 
-  test_horizontal_and_vertical_lines:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
+  test_get_area_rectangle:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ./Lines/src
+        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
 
     steps:
 
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - name: Setup cache
+        uses: actions/cache@v2
         with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
+          path: ~/github_actions_cache
+          key: $GITHUB_REPOSITORY
         
-      - name: Test horizontal and vertical lines
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest "horizontal and vertical"
-
-  test_reversed_point_collisions:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
-    defaults:
-      run:
-        working-directory: ./Lines/src
-
-    steps:
-
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
-        
-      - name: Test reversed point collisions
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest "reversed points"
-
-  test_point_collision:
-
-    runs-on: ubuntu-latest
-    needs: [test_constructor_setup, test_setPoint2_setup, test_draw_setup, test_getIntersectionX_setup, test_getIntersectionY_setup, test_intersects_setup]
-    defaults:
-      run:
-        working-directory: ./Lines/src
-
-    steps:
-
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: testing-artifacts
-          path: ./Lines/src
-          
-      - name: Compile the test code
-        run: javac -cp .:processing_core.jar:kTesting.jar *.java
-        
-      - name: Test point collisions
-        run: java -cp .:processing_core.jar:kTesting.jar LineTest point
+      - name: Test constructor
+        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest getAreaRectangle 
