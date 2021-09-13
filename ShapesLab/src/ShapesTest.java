@@ -24,7 +24,9 @@ public class ShapesTest {
 //        Method m = ShapesTest.class.getMethod(choice);
 //        m.invoke(null);
     }
-
+    public static void existsShape() {
+        getClass("Shape");
+    }
     public static void existsCircle() {
         getClass("Circle");
     }
@@ -63,9 +65,17 @@ public class ShapesTest {
         Object rec1 = getRectangle();
         kAssertMethodExists("getPerimeter", rec1);
     }
+    public static void existsGetPerimeterCircle() {
+        Object rec1 = getCircle();
+        kAssertMethodExists("getPerimeter", rec1);
+    }
 
     public static void existsGetAreaRectangle() {
         Object rec1 = getRectangle();
+        kAssertMethodExists("getArea", rec1);
+    }
+    public static void existsGetAreaCircle() {
+        Object rec1 = getCircle();
         kAssertMethodExists("getArea", rec1);
     }
 
@@ -78,6 +88,17 @@ public class ShapesTest {
         kAssertTrue("isPointInside", rec1, 5., 20.);
     }
 
+    public static void isPointInsideCircleEdges() {
+        Object rec1 = getCircle(0,0,20);
+        kAssertTrue("isPointInside", rec1, 0., 10.);
+        kAssertTrue("isPointInside", rec1, 10., 0.);
+        kAssertTrue("isPointInside", rec1, -10., 0.);
+        kAssertTrue("isPointInside", rec1, 0., -10.);
+        kAssertTrue("isPointInside", rec1, 8., -6.);
+        kAssertTrue("isPointInside", rec1, -6., 8.);
+        kAssertTrue("isPointInside", rec1, 6., -8.);
+    }
+
     public static void isPointInsideRectangleInside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertTrue("isPointInside", rec1, 5., 10.);
@@ -85,11 +106,28 @@ public class ShapesTest {
         kAssertTrue("isPointInside", rec1, 2., 5.);
     }
 
+    public static void isPointInsideCircleInside() {
+        Object rec1 = getCircle(0,0,10);
+        kAssertTrue("isPointInside", rec1, 0., 0.);
+        kAssertFalse("isPointInside", rec1, 5., 15.);
+        kAssertTrue("isPointInside", rec1, 2., 4.);
+        kAssertFalse("isPointInside", rec1, 10., 10.);
+    }
+
     public static void isPointInsideRectangleOutside() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertFalse("isPointInside", rec1, 11., 10.);
         kAssertFalse("isPointInside", rec1, -1., 10.);
         kAssertFalse("isPointInside", rec1, 5., -1.);
+        kAssertFalse("isPointInside", rec1, 5., 21.);
+        kAssertFalse("isPointInside", rec1, 11., -1.);
+        kAssertFalse("isPointInside", rec1, 11., 21.);
+    }
+    public static void isPointInsideCircleOutside() {
+        Object rec1 = getCircle(0, 0, 20);
+        kAssertFalse("isPointInside", rec1, 11., 10.);
+        kAssertFalse("isPointInside", rec1, -1., 10.);
+        kAssertFalse("isPointInside", rec1, 10., -1.);
         kAssertFalse("isPointInside", rec1, 5., 21.);
         kAssertFalse("isPointInside", rec1, 11., -1.);
         kAssertFalse("isPointInside", rec1, 11., 21.);
@@ -106,6 +144,17 @@ public class ShapesTest {
         kAssertEquals("getPerimeter", rec1, 30.);
     }
 
+    public static void getPerimeterCircle() {
+        Object rec1 = getCircle(0, 0, 20);
+        kAssertEquals("getPerimeter", rec1, Math.PI*20);
+        rec1 = getCircle(0, 0, 10);
+        kAssertEquals("getPerimeter", rec1, Math.PI*10);
+        rec1 = getCircle(0, 0, 15);
+        kAssertEquals("getPerimeter", rec1, Math.PI*15);
+        rec1 = getCircle(0, 0, 5);
+        kAssertEquals("getPerimeter", rec1, Math.PI*5);
+    }
+
     public static void getAreaRectangle() {
         Object rec1 = getRectangle(0, 0, 10, 20);
         kAssertEquals("getArea", rec1, 200.);
@@ -115,6 +164,30 @@ public class ShapesTest {
         kAssertEquals("getArea", rec1, 400.);
         rec1 = getRectangle(0, 0, 10, 5);
         kAssertEquals("getArea", rec1, 50.);
+    }
+
+    public static void getAreaCircle() {
+        Object rec1 = getCircle(0, 0, 10);
+        kAssertEquals("getArea", rec1, Math.PI * Math.pow((10./2),2));
+        rec1 = getCircle(0, 0, 15);
+        kAssertEquals("getArea", rec1, Math.PI * Math.pow((15./2),2));
+        rec1 = getCircle(0, 0, 20);
+        kAssertEquals("getArea", rec1, Math.PI * Math.pow((20./2),2));
+        rec1 = getCircle(0, 0, 8);
+        kAssertEquals("getArea", rec1, Math.PI * Math.pow((8./2),2));
+    }
+
+    public static void rectangleExtendsShape(){
+        Class shape = getClass("Shape");
+        Class rectangle = getClass("Rectangle");
+        Class superClass = rectangle.getSuperclass();
+        kAssertTrue("equals", shape, superClass);
+    }
+    public static void circleExtendsShape(){
+        Class shape = getClass("Shape");
+        Class rectangle = getClass("Circle");
+        Class superClass = rectangle.getSuperclass();
+        kAssertTrue("equals", shape, superClass);
     }
 
     private static Class getClass(String className) {
@@ -157,9 +230,9 @@ public class ShapesTest {
         return null;
     }
 
-    private static Object getCircle(double x, double y, double radius) {
+    private static Object getCircle(double x, double y, double diameter) {
         try {
-            return getClass("Circle").getConstructor(double.class, double.class, double.class).newInstance(x, y, radius);
+            return getClass("Circle").getConstructor(double.class, double.class, double.class).newInstance(x, y, diameter);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
