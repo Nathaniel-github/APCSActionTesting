@@ -1,6 +1,5 @@
 import kchandra423.kTesting.KException;
 
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,18 +10,22 @@ import static kchandra423.kTesting.KAssertion.*;
 public class ShapesTest {
 
     public static void main(String[] args) throws Exception {
-        // Method[] methods = ShapesTest.class.getMethods();
-        // for (Method m :
-        //         methods) {
-        //     if (!m.getName().equals("main") && Modifier.isPublic(m.getModifiers()) && Modifier.isStatic(m.getModifiers())) {
-        //         m.invoke(null);
-        //     }
-        // }
+
 
 
        String choice = args[0];
-       Method m = ShapesTest.class.getMethod(choice);
-       m.invoke(null);
+       if(choice.equals("all")){
+           Method[] methods = ShapesTest.class.getMethods();
+           for (Method m :
+                   methods) {
+               if (!m.getName().equals("main") && Modifier.isPublic(m.getModifiers()) && Modifier.isStatic(m.getModifiers())) {
+                   m.invoke(null);
+               }
+           }
+       }else {
+           Method m = ShapesTest.class.getMethod(choice);
+           m.invoke(null);
+       }
     }
     public static void existsShape() {
         getClass("Shape");
