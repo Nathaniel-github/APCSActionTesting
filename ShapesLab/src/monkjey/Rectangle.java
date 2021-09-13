@@ -1,6 +1,9 @@
-package yea.ok;
+package monkjey;
 
 import processing.core.PApplet;
+import yea.ok.Line;
+import yea.ok.Shape;
+
 /**
  * Represents a rectangle composed of 4 lines
  * @author Kumar Chandra
@@ -111,14 +114,16 @@ public class Rectangle extends Shape {
 	 * @return area
 	 */
 	public double getArea() {
+//		return 0;
 		return Math.abs(top.getLength()*left.getLength());
-		
+
 	}
 	/**
 	 * returns perimeter (2*length + 2*height)
 	 * @return perimeter
 	 */
 	public double getPerimeter() {
+//		return 0;
 		return Math.abs(top.getLength())*2+Math.abs(left.getLength())*2;
 	}
 	/**
@@ -134,53 +139,53 @@ public class Rectangle extends Shape {
 		setX(getX()+xAmount);
 		setY(getY()+yAmount);
 	}
-	/**
-	 * checks if any of the edges intersect with the given live
-	 * @param other the given line
-	 * @return true if the line touches any of edges, false
-	 * if inside but not touching an edge or otherwise
-	 */
-	public boolean intersectsEdge(Line other) {
-		boolean answer=false;
-		for (int i=0;i<lines.length;i++) {
-			try {
-				if(lines[i].intersects(other)) {
-					answer=true;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return answer;
-		
-	}
-	/**
-	 * checks if any of this rectangles edges intersect with any of the other
-	 * rectangles edges. If this rectangle returns true, the other rectangle should also return true, 
-	 * and vice versa. being inside a rectangle does not count as intersecting.
-	 * @param other the given rectangle
-	 * @return true if any lines intersect with any of the other rectangles lines
-	 * and false otherwise.
-	 */
-	public boolean intersectsEdge(Rectangle other) {
-		boolean answer=false;
-		for (int i=0;i<lines.length;i++) {
-			for(int j=0;j<other.getLines().length;j++) {
-				try {
-					if(lines[i].intersects(other.getLines()[j])) {
-					answer=true;
-					lines[i].intersects(other.getLines()[j]);
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return answer;
-		
-	}
+//	/**
+//	 * checks if any of the edges intersect with the given live
+//	 * @param other the given line
+//	 * @return true if the line touches any of edges, false
+//	 * if inside but not touching an edge or otherwise
+//	 */
+//	public boolean intersectsEdge(Line other) {
+//		boolean answer=false;
+//		for (int i=0;i<lines.length;i++) {
+//			try {
+//				if(lines[i].intersects(other)) {
+//					answer=true;
+//				}
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return answer;
+//
+//	}
+//	/**
+//	 * checks if any of this rectangles edges intersect with any of the other
+//	 * rectangles edges. If this rectangle returns true, the other rectangle should also return true,
+//	 * and vice versa. being inside a rectangle does not count as intersecting.
+//	 * @param other the given rectangle
+//	 * @return true if any lines intersect with any of the other rectangles lines
+//	 * and false otherwise.
+//	 */
+//	public boolean intersectsEdge(Rectangle other) {
+//		boolean answer=false;
+//		for (int i=0;i<lines.length;i++) {
+//			for(int j=0;j<other.getLines().length;j++) {
+//				try {
+//					if(lines[i].intersects(other.getLines()[j])) {
+//					answer=true;
+//					lines[i].intersects(other.getLines()[j]);
+//					}
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return answer;
+//
+//	}
 	/**
 	 * gives the top line (may not always look like the "top" line)
 	 * @return top line
@@ -209,60 +214,60 @@ public class Rectangle extends Shape {
 	public Line getRight() {
 		return right;
 	}
-	/**
-	 * gives all lines in a array, in the order of (top,left,bottom,right)
-	 * @return all lines as an array
-	 */
-	public Line[] getLines() {
-		return lines;
-	}
-	@Override
-	public boolean intersects(Shape other) throws Exception {
-		// TODO Auto-generated method stub
-		if(other instanceof Line) {
-			return intersectsEdge((Line)other);
-		}
-		else if (other instanceof Circle) {
-			return ((Circle)other).intersectsEdge(this);
-		}
-		else if (other instanceof Rectangle) {
-			
-			return intersectsEdge((Rectangle)other);
-		}
-		else {
-			throw new Exception ("Tried to check intersection with unknown shape");
-		}
-	}
-	@Override
-	public void rotate(double x, double y, double theta) {
-		// TODO Auto-generated method stub
-		for(int i=0;i<lines.length;i++) {
-			lines[i].rotate(x,y,theta);
-		}
-		double pX=x;
-		double midY= y;
-		
-		
-		 double s = Math.sin(theta);
-		 double c = Math.cos(theta);
-		double x1=getX();
-		double y1=getY();
-
-		  // translate point back to origin:
-		  x1 -= pX;
-		  y1 -= midY;
-
-		  // rotate point
-		  double xnew = x1 * c - y1 * s;
-		  double ynew = x1 * s + y1 * c;
-
-		  // translate point back:
-		  x1 = xnew + pX;
-		  y1 = ynew + midY;
-		  setX(x1);
-		  setY(y1);
-		
-	}
+//	/**
+//	 * gives all lines in a array, in the order of (top,left,bottom,right)
+//	 * @return all lines as an array
+//	 */
+//	public Line[] getLines() {
+//		return lines;
+//	}
+//	@Override
+//	public boolean intersects(Shape other) throws Exception {
+//		// TODO Auto-generated method stub
+//		if(other instanceof Line) {
+//			return intersectsEdge((Line)other);
+//		}
+//		else if (other instanceof Circle) {
+//			return ((Circle)other).intersectsEdge(this);
+//		}
+//		else if (other instanceof Rectangle) {
+//
+//			return intersectsEdge((Rectangle)other);
+//		}
+//		else {
+//			throw new Exception ("Tried to check intersection with unknown shape");
+//		}
+//	}
+//	@Override
+//	public void rotate(double x, double y, double theta) {
+//		// TODO Auto-generated method stub
+//		for(int i=0;i<lines.length;i++) {
+//			lines[i].rotate(x,y,theta);
+//		}
+//		double pX=x;
+//		double midY= y;
+//
+//
+//		 double s = Math.sin(theta);
+//		 double c = Math.cos(theta);
+//		double x1=getX();
+//		double y1=getY();
+//
+//		  // translate point back to origin:
+//		  x1 -= pX;
+//		  y1 -= midY;
+//
+//		  // rotate point
+//		  double xnew = x1 * c - y1 * s;
+//		  double ynew = x1 * s + y1 * c;
+//
+//		  // translate point back:
+//		  x1 = xnew + pX;
+//		  y1 = ynew + midY;
+//		  setX(x1);
+//		  setY(y1);
+//
+//	}
 	/**
 	 * gives the x value of the midpoint of this rectangle
 	 * @return xval of midpoint
@@ -277,33 +282,33 @@ public class Rectangle extends Shape {
 	public double getCenterY() {
 		return (left.getY()+left.gety2()+right.getY()+right.gety2())/4;
 	}
-	@Override
-	public void moveTo(double x, double y) {
-		// TODO Auto-generated method stub
-		double width=top.getLength();
-		double height=left.getLength();
-		top=new Line(x,y,x+width,y);
-		left= new Line(x,y,x,y+height);
-		bottom= new Line(x,y+height, x+width, y+height);
-		right= new Line(x+width, y, x+width, y+height);
-				lines[0]=top;
-		lines[1]=left;
-		lines[2]=bottom;
-		lines[3]=right;
-	}
-
-	@Override
-	public Rectangle getBoundingRectangle() {
-		// TODO Auto-generated method stub
-		return this;
-	}
-	@Override
-	public void reflectOver(double x) {
-		for(Line l:lines) {
-			l.reflectOver(x);
-		}
-		
-	}
+//	@Override
+//	public void moveTo(double x, double y) {
+//		// TODO Auto-generated method stub
+//		double width=top.getLength();
+//		double height=left.getLength();
+//		top=new Line(x,y,x+width,y);
+//		left= new Line(x,y,x,y+height);
+//		bottom= new Line(x,y+height, x+width, y+height);
+//		right= new Line(x+width, y, x+width, y+height);
+//				lines[0]=top;
+//		lines[1]=left;
+//		lines[2]=bottom;
+//		lines[3]=right;
+//	}
+//
+//	@Override
+//	public Rectangle getBoundingRectangle() {
+//		// TODO Auto-generated method stub
+//		return this;
+//	}
+//	@Override
+//	public void reflectOver(double x) {
+//		for(Line l:lines) {
+//			l.reflectOver(x);
+//		}
+//
+//	}
 	@Override
 	public String toString(){
 		return "hi";

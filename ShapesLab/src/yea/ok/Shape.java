@@ -1,10 +1,8 @@
 package yea.ok;
 
 import java.awt.Color;
-
-
 import processing.core.PApplet;
-// More functionality will definitely be added later but for now im just using doing what my group decided on 
+// More functionality will definitely be added later but for now im just using doing what my group decided on
 //(not to mention because im lazy)
 /**
  * Represents a shape using processing
@@ -32,9 +30,9 @@ public Shape(double x, double y) {
 	fill=Color.white;
 	stroke=Color.black;
 
-	
+
 }
-	
+
 /**
  * draws the shape with the specified fill and stroke
  * 	@pre any of the parameters about the papplet thats passed in will still
@@ -51,46 +49,46 @@ public void draw(PApplet p) {
 	p.strokeWeight(strokeWeight);
 
 }
-/**
- * checks if this shape intersects with the other shape, but returns false for shapes overlapping
- * yea.ok.Shape must be a rectangle circle or line
- * @pre shapes must be a rectangle, circle, or line
- * @param other the specified shape
- * @return true if edges intersect, false otherwise
- * @throws Exception throws an exception if you try to check if a 'custom' (non rectangle, line or circle) shape 
- * intersects with another shape
- */
-public abstract boolean intersects(Shape other) throws Exception;
-	/**
-	 * shifts the shape by x and y units
-	 * @param x x units right
-	 * @param y  y units down
-	 */
-	public abstract void shift(double x, double y);
-	/**
-	 * rotates the shape around a specified point by the specified number of radians
-	 * @param x xpoint of rotation
-	 * @param y ypoint of rotation
-	 * @param theta magnitude of rotation in radians
-	 */
-	public abstract void rotate(double x, double y, double theta);
-	public abstract void reflectOver(double x);
+///**
+// * checks if this shape intersects with the other shape, but returns false for shapes overlapping
+// * yea.ok.Shape must be a rectangle circle or line
+// * @pre shapes must be a rectangle, circle, or line
+// * @param other the specified shape
+// * @return true if edges intersect, false otherwise
+// * @throws Exception throws an exception if you try to check if a 'custom' (non rectangle, line or circle) shape
+// * intersects with another shape
+// */
+//public abstract boolean intersects(Shape other) throws Exception;
+//	/**
+//	 * shifts the shape by x and y units
+//	 * @param x x units right
+//	 * @param y  y units down
+//	 */
+//	public abstract void shift(double x, double y);
+//	/**
+//	 * rotates the shape around a specified point by the specified number of radians
+//	 * @param x xpoint of rotation
+//	 * @param y ypoint of rotation
+//	 * @param theta magnitude of rotation in radians
+//	 */
+//	public abstract void rotate(double x, double y, double theta);
+//	public abstract void reflectOver(double x);
 	/**
 	 * gives perimeter of shape (for lines just gives the length)
 	 * @return perimeter in pixels
 	 */
-	public abstract double getPerimeter() ;
+//	public abstract double getPerimeter() ;
 	/**
 	 * gives area of shape(for lines just gives the length)
 	 * @return area in pixels squared
 	 */
-	public abstract double getArea() ;
-	/**
-	 * moves the shape to a certain location
-	 * @param x xcoord of location
-	 * @param y ycoord of location
-	 */
-	public abstract void moveTo(double x, double y) ;
+//	public abstract double getArea() ;
+//	/**
+//	 * moves the shape to a certain location
+//	 * @param x xcoord of location
+//	 * @param y ycoord of location
+//	 */
+//	public abstract void moveTo(double x, double y) ;
 	/**
 	 * sets the fill of the shape (inside color)
 	 *  important to note that lines dont have fill, only stroke
@@ -102,7 +100,7 @@ public abstract boolean intersects(Shape other) throws Exception;
 		filled=true;
 	}
 /**
- * sets the fill of the shape (inside color) 
+ * sets the fill of the shape (inside color)
  * important to note that lines dont have fill, only stroke
  * @post sets filled to true
  * @param r red value
@@ -115,7 +113,7 @@ public abstract boolean intersects(Shape other) throws Exception;
 		fill=c;
 	}
 	/**
-	 * sets the stroke of the shape (line color) 
+	 * sets the stroke of the shape (line color)
 	 * important to note that lines dont have fill, only stroke
 	 * @param stroke color of the stroke
 	 */
@@ -141,10 +139,10 @@ public abstract boolean intersects(Shape other) throws Exception;
 	 */
 	public abstract boolean isPointInside(double x, double y) ;
 	/**
-	 * Gives a rectangle that this shape will best fit into 
+	 * Gives a rectangle that this shape will best fit into
 	 * @return rectangle that would cover shape best
 	 */
-	public abstract Rectangle getBoundingRectangle();
+//	public abstract Rectangle getBoundingRectangle();
 	 // this varies from shape to shape and i might just get rid of this idea, since it doesn't really make sense
 	 // I would rather just have shape be an interface, or at least just not have an 'x' and a 'y'
 	/**
@@ -211,7 +209,7 @@ public abstract boolean intersects(Shape other) throws Exception;
 	 */
 	public int getStrokeWeight() {
 		return strokeWeight;
-		
+
 	}
 	/**
 	 * sets the current stroke weight

@@ -354,95 +354,93 @@ public class Line extends Shape {
 //		public void setY(double y) {
 //			this.y1=y;
 //		}
-		@Override
-		public boolean intersects(Shape other) throws Exception {
-			// TODO Auto-generated method stub
-			boolean answer=false;
-			if(other instanceof Line) {
-				answer=intersectsEdge(((Line)other));
-			}else if(other instanceof Circle) {
-				answer=((Circle)other).intersectsEdge(this);
-			}else if(other instanceof Rectangle) {
-				answer=((Rectangle)other).intersectsEdge(this);
-			}
-			else {
-				throw new Exception ("Tried to check intersection with unknown shape");
-			}
-			return answer;
-			
-		}
-		@Override
-		public void rotate(double x, double y,double theta) {
-			// TODO Auto-generated method stub
-			double pX=x;
-			double midY= y;
-			
-			 double s = Math.sin(theta);
-			 double c = Math.cos(theta);
-
-			  // translate point back to origin:
-			 setX(getX()-pX);
-//			 x1 -= pX;
-			 setY(getY()-midY);
-//			  y1 -= midY;
- 
-			  // rotate point
-			  double xnew = getX() * c - getY() * s;
-			  double ynew = getX() * s + getY() * c;
-
-			  // translate point back:
-			  setX( xnew + pX);
-			  setY(ynew + midY);
-
-			  x2 -= pX;
-			  y2 -= midY;
-
-			  // rotate point
-			   xnew = x2 * c - y2 * s;
-			  ynew = x2 * s + y2 * c;
-
-			  // translate point back:
-			  x2 = xnew + pX;
-			  y2 = ynew + midY;
-		}
-		@Override
+//		@Override
+//		public boolean intersects(Shape other) throws Exception {
+//			// TODO Auto-generated method stub
+//			boolean answer=false;
+//			if(other instanceof Line) {
+//				answer=intersectsEdge(((Line)other));
+//			}else if(other instanceof Circle) {
+//				answer=((Circle)other).intersectsEdge(this);
+//			}else if(other instanceof Rectangle) {
+//				answer=((Rectangle)other).intersectsEdge(this);
+//			}
+//			else {
+//				throw new Exception ("Tried to check intersection with unknown shape");
+//			}
+//			return answer;
+//
+//		}
+//		@Override
+//		public void rotate(double x, double y,double theta) {
+//			// TODO Auto-generated method stub
+//			double pX=x;
+//			double midY= y;
+//
+//			 double s = Math.sin(theta);
+//			 double c = Math.cos(theta);
+//
+//			  // translate point back to origin:
+//			 setX(getX()-pX);
+////			 x1 -= pX;
+//			 setY(getY()-midY);
+////			  y1 -= midY;
+//
+//			  // rotate point
+//			  double xnew = getX() * c - getY() * s;
+//			  double ynew = getX() * s + getY() * c;
+//
+//			  // translate point back:
+//			  setX( xnew + pX);
+//			  setY(ynew + midY);
+//
+//			  x2 -= pX;
+//			  y2 -= midY;
+//
+//			  // rotate point
+//			   xnew = x2 * c - y2 * s;
+//			  ynew = x2 * s + y2 * c;
+//
+//			  // translate point back:
+//			  x2 = xnew + pX;
+//			  y2 = ynew + midY;
+//		}
 		public double getPerimeter() {
 			// TODO Auto-generated method stub
 			return getLength();
 		}
-		@Override
 		public double getArea() {
 			// TODO Auto-generated method stub
 			return getLength();
 		}
-		@Override
-		public void moveTo(double x, double y) {
-			// TODO Auto-generated method stub
-			double xdist= getX()-x2;
-			double ydist=getY()-y2;
-			setX(x);
-			setY(y);
-			y2=getY()+ydist;
-			x2=getX()+xdist;
-			
-		}
+//		@Override
+//		public void moveTo(double x, double y) {
+//			// TODO Auto-generated method stub
+//			double xdist= getX()-x2;
+//			double ydist=getY()-y2;
+//			setX(x);
+//			setY(y);
+//			y2=getY()+ydist;
+//			x2=getX()+xdist;
+//
+//		}
 		@Override
 		public boolean isPointInside(double x, double y) {
 			// TODO Auto-generated method stub
 			return intersectsEdge(x,y);
 		}
-		@Override
-		public Rectangle getBoundingRectangle() {
-			// TODO Auto-generated method stub
-			return new Rectangle(getX(), getY(), x2-getX(),y2-getY());
-		}
-		@Override
-		public void reflectOver(double x) {
-			double difx1= getX()-x,difx2=x2-x;
-			setX(x-difx1);
-			x2=x-difx2;
-			
-		}
+//		@Override
+//		public Rectangle getBoundingRectangle() {
+//			// TODO Auto-generated method stub
+//			return new Rectangle(getX(), getY(), x2-getX(),y2-getY());
+//		}
+//		@Override
+//		public void reflectOver(double x) {
+//			double difx1= getX()-x,difx2=x2-x;
+//			setX(x-difx1);
+//			x2=x-difx2;
+//
+//		}
 		
 
 }
