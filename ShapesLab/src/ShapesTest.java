@@ -246,7 +246,7 @@ public class ShapesTest {
     }
 
     private static String getFullyQualifiedName(String className) {
-        File src = new File(System.getProperty("user.dir") + "/src");
+        File src = new File(System.getProperty("user.dir"));
         return getFullyQualifiedName(src, className, "");
     }
 
