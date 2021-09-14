@@ -251,6 +251,10 @@ public class ShapesTest {
     }
 
     private static String getFullyQualifiedName(File dir, String className, String current) {
+        System.out.println("urmother");
+        if(!dir.isDirectory()){
+            System.out.println("urmom");
+        }
         for (File file : dir.listFiles()) {
             if (file.isDirectory()) {
                 String val = getFullyQualifiedName(file, className, current + file.getName() + ".");
