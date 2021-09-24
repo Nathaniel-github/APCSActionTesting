@@ -55,32 +55,32 @@ public class ShapesTest {
 
     public static void existsIsPointInsideRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
+        kAssertMethodExists("isPointInside", rec1.getClass(), double.class, double.class);
     }
 
     public static void existsIsPointInsideCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
+        kAssertMethodExists("isPointInside", rec1.getClass(), double.class, double.class);
     }
 
     public static void existsGetPerimeterRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("getPerimeter", rec1);
+        kAssertMethodExists("getPerimeter", rec1.getClass());
     }
 
     public static void existsGetPerimeterCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("getPerimeter", rec1);
+        kAssertMethodExists("getPerimeter", rec1.getClass());
     }
 
     public static void existsGetAreaRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("getArea", rec1);
+        kAssertMethodExists("getArea", rec1.getClass());
     }
 
     public static void existsGetAreaCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("getArea", rec1);
+        kAssertMethodExists("getArea", rec1.getClass());
     }
 
     public static void isPointInsideRectangleEdges() {
@@ -151,13 +151,13 @@ public class ShapesTest {
 
     public static void getPerimeterCircle() {
         Object rec1 = getCircle(0, 0, 20);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 20);
+        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 20, Math.PI * 40});
         rec1 = getCircle(0, 0, 10);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 10);
+        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 10, Math.PI * 20});
         rec1 = getCircle(0, 0, 15);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 15);
+        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 15, Math.PI * 30});
         rec1 = getCircle(0, 0, 5);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 5);
+        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 5, Math.PI * 10});
     }
 
     public static void getAreaRectangle() {
@@ -173,13 +173,13 @@ public class ShapesTest {
 
     public static void getAreaCircle() {
         Object rec1 = getCircle(0, 0, 10);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((10. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((10. / 2), 2), Math.PI * Math.pow((10.), 2)});
         rec1 = getCircle(0, 0, 15);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((15. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((15. / 2), 2), Math.PI * Math.pow((15.), 2)});
         rec1 = getCircle(0, 0, 20);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((20. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((20. / 2), 2), Math.PI * Math.pow((20.), 2)});
         rec1 = getCircle(0, 0, 8);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((8. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((8. / 2), 2), Math.PI * Math.pow((8.), 2)});
     }
 
     public static void rectangleExtendsShape() {
