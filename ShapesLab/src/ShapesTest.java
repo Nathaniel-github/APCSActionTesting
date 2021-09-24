@@ -1,4 +1,5 @@
-import kchandra423.kTesting.KException;
+
+import kchandra423.kTesting.exceptions.KExistenceException;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -151,13 +152,13 @@ public class ShapesTest {
 
     public static void getPerimeterCircle() {
         Object rec1 = getCircle(0, 0, 20);
-        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 20, Math.PI * 40});
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 20, Math.PI * 40});
         rec1 = getCircle(0, 0, 10);
-        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 10, Math.PI * 20});
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 10, Math.PI * 20});
         rec1 = getCircle(0, 0, 15);
-        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 15, Math.PI * 30});
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 15, Math.PI * 30});
         rec1 = getCircle(0, 0, 5);
-        kAssertEqualsAny("getPerimeter", rec1, new Double[]{Math.PI * 5, Math.PI * 10});
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 5, Math.PI * 10});
     }
 
     public static void getAreaRectangle() {
@@ -173,13 +174,13 @@ public class ShapesTest {
 
     public static void getAreaCircle() {
         Object rec1 = getCircle(0, 0, 10);
-        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((10. / 2), 2), Math.PI * Math.pow((10.), 2)});
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((10. / 2), 2), Math.PI * Math.pow((10.), 2)});
         rec1 = getCircle(0, 0, 15);
-        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((15. / 2), 2), Math.PI * Math.pow((15.), 2)});
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((15. / 2), 2), Math.PI * Math.pow((15.), 2)});
         rec1 = getCircle(0, 0, 20);
-        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((20. / 2), 2), Math.PI * Math.pow((20.), 2)});
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((20. / 2), 2), Math.PI * Math.pow((20.), 2)});
         rec1 = getCircle(0, 0, 8);
-        kAssertEqualsAny("getArea", rec1, new Double[]{Math.PI * Math.pow((8. / 2), 2), Math.PI * Math.pow((8.), 2)});
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((8. / 2), 2), Math.PI * Math.pow((8.), 2)});
     }
 
     public static void rectangleExtendsShape() {
@@ -199,7 +200,7 @@ public class ShapesTest {
     private static Class getClass(String className) {
         String foundClass = getFullyQualifiedName(className);
         if (foundClass == null) {
-            throw new KException(className);
+            throw new KExistenceException(className);
         }
         try {
             return Class.forName(foundClass);
@@ -246,7 +247,12 @@ public class ShapesTest {
     }
 
     private static String getFullyQualifiedName(String className) {
-        File src = new File(System.getProperty("user.dir"));
+        File src = null;
+        if (System.getProperty("os.name").contains("win")) {
+            src = new File(System.getProperty("user.dir"));
+        } else {
+            src = new File(System.getProperty("user.dir") + "/src");
+        }
         return getFullyQualifiedName(src, className, "");
     }
 
