@@ -131,11 +131,11 @@ public class ShapesTest {
 
     public static void isPointInsideCircleOutside() {
         Object rec1 = getCircle(0, 0, 20);
-        kAssertFalse("isPointInside", rec1, 11., 10.);
-        kAssertFalse("isPointInside", rec1, -1., 10.);
-        kAssertFalse("isPointInside", rec1, 10., -1.);
+        kAssertFalse("isPointInside", rec1, 21., 10.);
+        kAssertFalse("isPointInside", rec1, -1., 21.);
+        kAssertFalse("isPointInside", rec1, 15., -15.);
         kAssertFalse("isPointInside", rec1, 5., 21.);
-        kAssertFalse("isPointInside", rec1, 11., -1.);
+        kAssertFalse("isPointInside", rec1, 21., -1.);
         kAssertFalse("isPointInside", rec1, 11., 21.);
     }
 

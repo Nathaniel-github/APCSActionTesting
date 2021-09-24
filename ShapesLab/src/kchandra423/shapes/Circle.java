@@ -179,14 +179,14 @@ public class Circle extends Shape{
   * @return  diameter
   */
  public double getDiameter() {
-	 return radius*2;
+	 return radius;
  }
  /**
   * gives radius (half of diameter)
   * @return radius
   */
  public double getRadius() {
-	 return radius ;
+	 return radius/2 ;
  }
 @Override
 public boolean intersects(Shape other) throws Exception {
