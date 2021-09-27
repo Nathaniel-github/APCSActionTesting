@@ -248,7 +248,7 @@ public class ShapesTest {
 
     private static String getFullyQualifiedName(String className) {
         File src = null;
-        if (System.getProperty("os.name").contains("win")) {
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
             src = new File(System.getProperty("user.dir"));
         } else {
             src = new File(System.getProperty("user.dir") + "/src");
