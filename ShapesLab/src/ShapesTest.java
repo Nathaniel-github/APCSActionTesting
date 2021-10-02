@@ -1,5 +1,4 @@
 
-import kchandra423.kTesting.exceptions.KExistenceException;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -201,7 +200,7 @@ public class ShapesTest {
     private static Class getClass(String className) {
         String foundClass = getFullyQualifiedName(className);
         if (foundClass == null) {
-            throw new KExistenceException(className);
+            throw new ClassNotFoundException();
         }
         try {
             return Class.forName(foundClass);
