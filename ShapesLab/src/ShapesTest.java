@@ -200,7 +200,7 @@ public class ShapesTest {
     private static Class getClass(String className) {
         String foundClass = getFullyQualifiedName(className);
         if (foundClass == null) {
-            throw new ClassNotFoundException();
+            return null;
         }
         try {
             return Class.forName(foundClass);
