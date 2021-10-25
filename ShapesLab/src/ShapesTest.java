@@ -1,4 +1,4 @@
-import kchandra423.kTesting.KException;
+
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -55,32 +55,32 @@ public class ShapesTest {
 
     public static void existsIsPointInsideRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
+        kAssertMethodExists("isPointInside", rec1.getClass(), double.class, double.class);
     }
 
     public static void existsIsPointInsideCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("isPointInside", rec1, double.class, double.class);
+        kAssertMethodExists("isPointInside", rec1.getClass(), double.class, double.class);
     }
 
     public static void existsGetPerimeterRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("getPerimeter", rec1);
+        kAssertMethodExists("getPerimeter", rec1.getClass());
     }
 
     public static void existsGetPerimeterCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("getPerimeter", rec1);
+        kAssertMethodExists("getPerimeter", rec1.getClass());
     }
 
     public static void existsGetAreaRectangle() {
         Object rec1 = getRectangle();
-        kAssertMethodExists("getArea", rec1);
+        kAssertMethodExists("getArea", rec1.getClass());
     }
 
     public static void existsGetAreaCircle() {
         Object rec1 = getCircle();
-        kAssertMethodExists("getArea", rec1);
+        kAssertMethodExists("getArea", rec1.getClass());
     }
 
     public static void isPointInsideRectangleEdges() {
@@ -93,14 +93,15 @@ public class ShapesTest {
     }
 
     public static void isPointInsideCircleEdges() {
-        Object rec1 = getCircle(0, 0, 20);
-        kAssertTrue("isPointInside", rec1, 0., 10.);
-        kAssertTrue("isPointInside", rec1, 10., 0.);
-        kAssertTrue("isPointInside", rec1, -10., 0.);
-        kAssertTrue("isPointInside", rec1, 0., -10.);
-        kAssertTrue("isPointInside", rec1, 8., -6.);
-        kAssertTrue("isPointInside", rec1, -6., 8.);
-        kAssertTrue("isPointInside", rec1, 6., -8.);
+        //this doesnt really exist anymore :/
+//        Object rec1 = getCircle(0, 0, 20);
+//        kAssertTrue("isPointInside", rec1, 0., 10.);
+//        kAssertTrue("isPointInside", rec1, 10., 0.);
+//        kAssertTrue("isPointInside", rec1, -10., 0.);
+//        kAssertTrue("isPointInside", rec1, 0., -10.);
+//        kAssertTrue("isPointInside", rec1, 8., -6.);
+//        kAssertTrue("isPointInside", rec1, -6., 8.);
+//        kAssertTrue("isPointInside", rec1, 6., -8.);
     }
 
     public static void isPointInsideRectangleInside() {
@@ -130,11 +131,11 @@ public class ShapesTest {
 
     public static void isPointInsideCircleOutside() {
         Object rec1 = getCircle(0, 0, 20);
-        kAssertFalse("isPointInside", rec1, 11., 10.);
-        kAssertFalse("isPointInside", rec1, -1., 10.);
-        kAssertFalse("isPointInside", rec1, 10., -1.);
+        kAssertFalse("isPointInside", rec1, 21., 10.);
+        kAssertFalse("isPointInside", rec1, -1., 21.);
+        kAssertFalse("isPointInside", rec1, 15., -15.);
         kAssertFalse("isPointInside", rec1, 5., 21.);
-        kAssertFalse("isPointInside", rec1, 11., -1.);
+        kAssertFalse("isPointInside", rec1, 21., -1.);
         kAssertFalse("isPointInside", rec1, 11., 21.);
     }
 
@@ -151,13 +152,13 @@ public class ShapesTest {
 
     public static void getPerimeterCircle() {
         Object rec1 = getCircle(0, 0, 20);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 20);
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 20, Math.PI * 40});
         rec1 = getCircle(0, 0, 10);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 10);
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 10, Math.PI * 20});
         rec1 = getCircle(0, 0, 15);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 15);
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 15, Math.PI * 30});
         rec1 = getCircle(0, 0, 5);
-        kAssertEquals("getPerimeter", rec1, Math.PI * 5);
+        kAssertEqualsAny("getPerimeter", rec1, new Object[]{Math.PI * 5, Math.PI * 10});
     }
 
     public static void getAreaRectangle() {
@@ -173,13 +174,13 @@ public class ShapesTest {
 
     public static void getAreaCircle() {
         Object rec1 = getCircle(0, 0, 10);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((10. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((10. / 2), 2), Math.PI * Math.pow((10.), 2)});
         rec1 = getCircle(0, 0, 15);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((15. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((15. / 2), 2), Math.PI * Math.pow((15.), 2)});
         rec1 = getCircle(0, 0, 20);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((20. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((20. / 2), 2), Math.PI * Math.pow((20.), 2)});
         rec1 = getCircle(0, 0, 8);
-        kAssertEquals("getArea", rec1, Math.PI * Math.pow((8. / 2), 2));
+        kAssertEqualsAny("getArea", rec1, new Object[]{Math.PI * Math.pow((8. / 2), 2), Math.PI * Math.pow((8.), 2)});
     }
 
     public static void rectangleExtendsShape() {
@@ -199,7 +200,7 @@ public class ShapesTest {
     private static Class getClass(String className) {
         String foundClass = getFullyQualifiedName(className);
         if (foundClass == null) {
-            throw new KException(className);
+            return null;
         }
         try {
             return Class.forName(foundClass);
@@ -246,7 +247,12 @@ public class ShapesTest {
     }
 
     private static String getFullyQualifiedName(String className) {
-        File src = new File(System.getProperty("user.dir"));
+        File src = null;
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            src = new File(System.getProperty("user.dir"));
+        } else {
+            src = new File(System.getProperty("user.dir") + "/src");
+        }
         return getFullyQualifiedName(src, className, "");
     }
 
