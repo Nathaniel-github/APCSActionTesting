@@ -4,314 +4,442 @@ on:
   workflow_dispatch:
 
 jobs:
+
   test_compilation:
     runs-on: self-hosted
-
-    defaults:
-      run:
-        working-directory: ./Shapes/src
 
     steps:
 
       - uses: actions/checkout@v2
 
       - name: Setup cache
+        id: setup-cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+          
 
-      - name: Clear cache
-        if: steps.setup-cache.outputs.cache-hit == 'true'
-        run: |
-          cd ~/github_actions_cache
-          rmdir *
-          del *
 
-      
       - name: Download jar files
         run: |
+          cd Shapes\src
           wget -O processing_core.jar "https://github.com/Nathaniel-github/APCSActionTesting/blob/main/jars/processing_core.jar?raw=true"
           wget -O kTesting.jar "https://github.com/kchandra423/KTesting/blob/master/out/artifacts/KTesting_jar/KTesting.jar?raw=true"
           wget -O ShapesTest.java "https://raw.githubusercontent.com/Nathaniel-github/APCSActionTesting/main/ShapesLab/src/ShapesTest.java"
       
       - name: Compile the code
-        run: javac -cp ".;processing_core.jar;kTesting.jar" *.java
-
-      - name: Move files into github_actions_cache
         run: |
-          cd ..
-          cd ..
-          cd ..
+          cd Shapes\src
+          javac -cp ".;processing_core.jar;kTesting.jar" *.java
+      - name: Copy files into github_actions_cache
+        run: |
           dir
-          move "$GITHUB_REPOSITORY" "~/github_actions_cache"
-
+          Xcopy "Shapes" ".\github_actions_cache" /E/H/Y/I
+          ls .\github_actions_cache
   test_rectangle_exists:
     runs-on: self-hosted
     needs: test_compilation
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
-
+      
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsRectangle
+      - name: Test directory stuff
+        run: |
+          cd
+          ls
+      - name: Test rect exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsRectangle
           
   test_rectangle_no_arg_constructor_setup:
     runs-on: self-hosted
     needs: test_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsNoArgConstructorRectangle
+      - name: Test no arg constructor
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsNoArgConstructorRectangle
 
   test_rectangle_constructor_setup:
     runs-on: self-hosted
     needs: test_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsConstructorRectangle
+      - name: Test arg constructor
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsConstructorRectangle
 
   test_circle_exists:
     runs-on: self-hosted
     needs: test_compilation
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
-        
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsCircle
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+      
+      - name: Test directory stuff
+        run: |
+          cd
+          ls
+      
+      - name: Test circle exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsCircle
 
   test_circle_no_arg_constructor_setup:
     runs-on: self-hosted
     needs: test_circle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsNoArgConstructorCircle
+      - name: Test no arg constructor
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsNoArgConstructorCircle
 
   test_circle_constructor_setup:
     runs-on: self-hosted
     needs: test_circle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsConstructorCircle
+      - name: Test arg constructor
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsConstructorCircle
 
   test_point_inside_rectangle_exists:
     runs-on: self-hosted
     needs: test_rectangle_constructor_setup
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsIsPointInsideRectangle
+      - name: Test point inside exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsIsPointInsideRectangle
 
   test_point_inside_circle_exists:
     runs-on: self-hosted
     needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsIsPointInsideCircle
+      - name: Test point inside exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsIsPointInsideCircle
 
   test_get_perimeter_rectangle_exists:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_rectangle_constructor_setup
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsGetPerimeterRectangle
+      - name: Test get perimeter exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsGetPerimeterRectangle
 
   test_get_area_rectangle_exists:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_rectangle_constructor_setup
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest existsGetAreaRectangle
+      - name: Test get area exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsGetAreaRectangle
 
   test_point_on_edge_rectangle:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_point_inside_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleEdges
+      - name: Test point inside method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest isPointInsideRectangleEdges
 
   test_is_point_inside_rectangle:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_point_inside_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleInside
+      - name: Test point inside method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest isPointInsideRectangleInside
 
   test_point_outside_rectangle:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_point_inside_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest isPointInsideRectangleOutside
+      - name: Test point inside method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest isPointInsideRectangleOutside
 
   test_get_perimeter_rectangle:
     runs-on: self-hosted
-    needs: test_circle_constructor_setup
+    needs: test_get_perimeter_rectangle_exists
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest getPerimeterRectangle
+      - name: Test get perimeter method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest getPerimeterRectangle
 
   test_get_area_rectangle:
+    runs-on: self-hosted
+    needs: test_get_area_rectangle_exists
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test get area method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest getAreaRectangle 
+
+  test_get_perimeter_circle_exists:
     runs-on: self-hosted
     needs: test_circle_constructor_setup
     defaults:
       run:
-        working-directory: ~/github_actions_cache/$GITHUB_REPOSITORY/Shapes/src
+        working-directory: ./github_actions_cache/src
 
     steps:
 
+        
       - name: Setup cache
         uses: actions/cache@v2
         with:
-          path: ~/github_actions_cache
-          key: $GITHUB_REPOSITORY
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
         
-      - name: Test constructor
-        run: java -cp .:processing_core.jar:kTesting.jar ShapesTest getAreaRectangle 
+      - name: Test get permiter exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsGetPerimeterCircle 
+
+  test_get_area_circle_exists:
+    runs-on: self-hosted
+    needs: test_circle_constructor_setup
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test get area exists
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest existsGetAreaCircle 
+
+  test_is_point_inside_circle:
+    runs-on: self-hosted
+    needs: test_point_inside_circle_exists
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test point inside method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest isPointInsideCircleInside 
+
+  test_point_outside_circle:
+    runs-on: self-hosted
+    needs: test_point_inside_circle_exists
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test point inside method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest isPointInsideCircleOutside
+
+  test_get_perimeter_circle:
+    runs-on: self-hosted
+    needs: test_get_perimeter_circle_exists
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test get perimeter method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest getPerimeterCircle
+
+  test_get_area_circle:
+    runs-on: self-hosted
+    needs: test_get_area_circle_exists
+    defaults:
+      run:
+        working-directory: ./github_actions_cache/src
+
+    steps:
+
+        
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ./github_actions_cache
+          key: ${{ runner.os }}-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_number }}
+        
+      - name: Test get area method
+        run: java -cp ".;processing_core.jar;kTesting.jar" ShapesTest getAreaCircle
